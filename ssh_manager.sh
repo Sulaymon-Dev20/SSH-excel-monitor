@@ -5,10 +5,10 @@ LOG_FILE="/etc/ssh/backup_scripts/ssh_access.json"
 
 # Ensure the log file exists and initialize with an empty array if it doesn't 🛠️
 if [ ! -f "$LOG_FILE" ]; then
-    echo "[" > "$LOG_FILE"
+    echo "[" > $LOG_FILE
 else
     # Remove the last line (closing bracket) temporarily to append new entries 📝
-    sed -i '$d' "$LOG_FILE"
+    sed -i '$d' $LOG_FILE
 fi
 
 # Get current timestamp ⏰
@@ -33,18 +33,19 @@ else
 fi
 
 # Check if the log file is empty (excluding the opening bracket) 🗂️
-if [ "$(wc -l < "$LOG_FILE")" -eq 1 ]; then
-    echo "$LOG_ENTRY" >> "$LOG_FILE"
+if [ "$(wc -l < $LOG_FILE)" -eq 1 ]; then
+    echo "$LOG_ENTRY" >> $LOG_FILE
 else
-    echo ",$LOG_ENTRY" >> "$LOG_FILE"
+    echo ",$LOG_ENTRY" >> $LOG_FILE
 fi
 
 # Add closing bracket for array at the end of the file 🏁
-echo "]" >> "$LOG_FILE"
+echo "]" >> $LOG_FILE
 
 # Execute the original SSH command or fallback to the default shell 🔄
 if [[ $SSH_ORIGINAL_COMMAND ]]; then
     eval "$SSH_ORIGINAL_COMMAND"
+    exit
 else
-    $SHELL
+  $SHELL
 fi

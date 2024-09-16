@@ -1,0 +1,13 @@
+[Unit]
+Description=SSH EXCEL MONITORING
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/etc/ssh/backup_scripts
+ExecStart=/usr/bin/python3 /etc/ssh/backup_scripts/serve_api.py
+Restart=always
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

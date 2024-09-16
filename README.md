@@ -7,6 +7,7 @@
 The SSH Excel Monitor project tracks and logs SSH access details in real-time, automatically recording data such as access time, IP address, and process ID, and exports this information into an organized Excel sheet for easy monitoring and analysis.
 </div>
 
+![ssh excel monitoring](example.jpg "SSH excel monitoring")
 
 ## Components
 

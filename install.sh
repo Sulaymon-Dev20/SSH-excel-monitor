@@ -2,12 +2,13 @@
 
 # Function to check script name
 check_script_name() {
-    SCRIPT_NAME=$(basename "$0")
-    if [ "$SCRIPT_NAME" != "ssh-excel-monitor" ]; then
-        echo "⚠️ The script name must be 'ssh-excel-monitor'."
-        echo "Current script name is: $SCRIPT_NAME"
-        exit 1
-    fi
+  PARENT_DIR="$(basename "$(pwd)")"
+  EXPECTED_DIR="ssh-excel-monitor"
+  if [[ "$PARENT_DIR" != "$EXPECTED_DIR" ]]; then
+      echo "⚠️ You have to be inside 'ssh-excel-monitor' folder."
+      echo "Current folder is: $SCRIPT_NAME"
+      exit 1
+  fi
 }
 
 # Function to check if the script has execute permission

@@ -191,14 +191,14 @@ reload_and_start_service() {
 
 # Function to delete the backup folder
 delete_backup_folder() {
-    echo "⚠️ This action will delete the backup folder: $BACKUP_DIR."
+    echo "⚠️ This action will delete the backup folder: $pwd."
     echo "Do you agree to proceed with the deletion? (Enter/Yes/YES/yes/Y/y to agree, any other key to disagree): "
 
     read -r USER_INPUT
     case "$USER_INPUT" in
         [Yy]|[Yy][Ee][Ss]|[Yy][Ee][Ss][Yy]|[Yy][Ee][Ss][Yy][Ee][Ss]|[Yy][Ee][Ss][Yy][Ee][Ss][Yy])
             echo "🔄 Deleting the backup folder."
-            sudo rm -rf "$BACKUP_DIR"
+            sudo rm -rf "$pwd"
             if [ $? -eq 0 ]; then
                 echo "✅ Backup folder deleted successfully."
             else

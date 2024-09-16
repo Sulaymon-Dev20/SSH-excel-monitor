@@ -3,14 +3,16 @@
 # Path to the log file 📁
 LOG_FILE="/etc/ssh/backup_scripts/ssh_access.json"
 
-# Ensure the log file exists and initialize with an empty array if it doesn't 🛠️
+# Ensure the log file exists and initialize with an empty array if it doesn't or if it's empty 🛠️
 if [ ! -f "$LOG_FILE" ]; then
+    echo "[" > $LOG_FILE
+elif [ ! -s "$LOG_FILE" ]; then
+    # If the file is empty, initialize it with an empty array
     echo "[" > $LOG_FILE
 else
     # Remove the last line (closing bracket) temporarily to append new entries 📝
     sed -i '$d' $LOG_FILE
 fi
-
 # Get current timestamp ⏰
 TIME=$(date +"%Y-%m-%d %T")
 

@@ -1,6 +1,6 @@
 function fetchDataAndUpdate() {
-    const url = 'https://server.ofnur.com/ssh-logs';
-    const sheetName = "165.232.136.191"; // Define the sheet name here
+    const url = 'http://YOUR-SERVER:8000/apikey/YOUR-API-KEY';
+    const sheetName = "YOUR-SERVER"; // Define the sheet name here
     createSheet(url, sheetName);
 }
 

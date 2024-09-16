@@ -69,7 +69,7 @@ The SSH Excel Monitor project tracks and logs SSH access details in real-time, a
 
 <div align="center">
 
-[![HOW TO USE RELNOTE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![HOW TO USE RELNOTE](https://img.youtube.com/vi/CK-DdvCtnI8/0.jpg)](https://www.youtube.com/watch?v=CK-DdvCtnI8)
 </div>
 
 - **`install.sh`**: Use this script to configure the environment and set up necessary components.

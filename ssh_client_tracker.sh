@@ -4,6 +4,11 @@
 JSON_FILE="/etc/ssh/backup_scripts/ssh_access.json"
 TEMP_JSON_FILE="/etc/ssh/backup_scripts/temp_ssh_access.json"
 
+if [ ! -f "$JSON_FILE" ]; then
+    echo "❌ JSON file does not exist. Exiting."
+    exit 1
+fi
+
 # Backup the original JSON file (currently commented out) 🗂️
 # cp "$JSON_FILE" "$JSON_FILE.bak"
 

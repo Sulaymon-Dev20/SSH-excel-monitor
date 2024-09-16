@@ -6,7 +6,7 @@ check_script_name() {
   EXPECTED_DIR="ssh-excel-monitor"
   if [[ "$PARENT_DIR" != "$EXPECTED_DIR" ]]; then
       echo "⚠️ You have to be inside 'ssh-excel-monitor' folder."
-      echo "Current folder is: $SCRIPT_NAME"
+      echo "Current folder is: $PARENT_DIR"
       exit 1
   fi
 }
@@ -14,7 +14,7 @@ check_script_name() {
 # Function to check if the script has execute permission
 check_permissions() {
     if [ ! -x "$0" ]; then
-        echo "⚠️ The script does not have execute permissions. Please run: chmod +x $SCRIPT_NAME to make it executable."
+        echo "⚠️ The script does not have execute permissions. Please run: chmod +x $0 to make it executable."
         exit 1
     fi
 }
@@ -27,6 +27,8 @@ prompt_agreement() {
     echo "2. Add a cron job to run /etc/ssh/backup_scripts/ssh_client_tracker.sh every minute."
     echo "3. Update the SSH configuration to set the ForceCommand directive."
     echo "4. Restart the SSH service to apply the changes."
+    echo "5. Copy serve_api.py and ssh-monitor.service to the appropriate directories."
+    echo "6. Reload the systemd daemon and start the ssh-monitor service."
     echo ""
     echo "Do you agree to proceed? (Y/y/Yes/yes/YES to agree, any other key to disagree): "
 
@@ -152,6 +154,41 @@ update_force_command() {
     fi
 }
 
+# Function to copy serve_api.py to /etc/ssh/backup_scripts/
+copy_serve_api() {
+    local src_file="serve_api.py"
+    local dest_file="/etc/ssh/backup_scripts/serve_api.py"
+
+    echo "📁 Copying $src_file to $dest_file..."
+    safe_copy "$src_file" "$dest_file"
+}
+
+# Function to copy ssh-monitor.service to /etc/systemd/system/
+copy_service_file() {
+    local src_file="ssh-monitor.service"
+    local dest_file="/etc/systemd/system/ssh-monitor.service"
+
+    echo "📁 Copying $src_file to $dest_file..."
+    safe_copy "$src_file" "$dest_file"
+}
+
+# Function to reload systemd daemon and start the service
+reload_and_start_service() {
+    echo "🔄 Reloading systemd daemon..."
+    sudo systemctl daemon-reload
+
+    echo "🚀 Starting ssh-monitor service..."
+    sudo systemctl start ssh-monitor.service
+
+    # Check service status
+    if systemctl is-active --quiet ssh-monitor.service; then
+        echo "✅ ssh-monitor service started successfully."
+    else
+        echo "⚠️ An error occurred while starting the ssh-monitor service."
+        exit 1
+    fi
+}
+
 # Function to delete the backup folder
 delete_backup_folder() {
     echo "⚠️ This action will delete the backup folder: $BACKUP_DIR."
@@ -178,7 +215,6 @@ delete_backup_folder() {
 # Main script execution
 check_script_name
 prompt_agreement
-
 check_permissions
 
 # Define the backup directory 📁
@@ -196,6 +232,13 @@ add_cron_job
 
 echo "🔧 Updating the ForceCommand."
 update_force_command
+
+echo "📁 Copying serve_api.py and ssh-monitor.service."
+copy_serve_api
+copy_service_file
+
+echo "🔄 Reloading systemd daemon and starting the service."
+reload_and_start_service
 
 # Optionally delete the backup folder
 echo "🗑️ Optionally, delete the backup folder after usage."
